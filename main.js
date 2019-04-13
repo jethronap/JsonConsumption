@@ -22,6 +22,16 @@ function openMap(options) {
     });
 };
 
+// this function populates the country info:
+function showMapInfo(data) {
+    document.querySelector("#info").innerHTML = `
+                                                 <p>👅Name: ${data.name}</p>
+                                                 <p>🚧Population: ${data.population}</p>
+                                                 <p>💣Capital: ${data.capital}</p>
+                                                 <p>🎉Lon: ${data.latlng[1]}</p>
+                                                 <p>🎉Lat: ${data.latlng[0]}</p>`
+}
+
 // this function hadles the 404 server response:
 function handleErrors(response) {
     if (!response.ok) {
@@ -56,25 +66,18 @@ function mapInfo() {
                 return response.json();
             })
             .then(function (data) {
-                if (value === 'india') {
+                console.log(data);
+
+                if (data.length > 1) {
                     openMap({ lon: data[1].latlng[1], lat: data[1].latlng[0] });
-                    document.querySelector("#info").innerHTML = `
-                                                             <p>👅Name: ${data[1].name}</p>
-                                                             <p>🚧Population: ${data[1].population}</p>
-                                                             <p>💣Capital: ${data[1].capital}</p>
-                                                             <p>🎉Lon: ${data[1].latlng[1]}</p>
-                                                             <p>🎉Lat: ${data[1].latlng[0]}</p>`
+                    showMapInfo(data[1]);
+
                 } else {
                     openMap({ lon: data[0].latlng[1], lat: data[0].latlng[0] });
-                    document.querySelector("#info").innerHTML = `
-                                                             <p>👅Name: ${data[0].name}</>
-                                                             <p>🚧Population: ${data[0].population}</p>
-                                                             <p>💣Capital: ${data[0].capital}</p>
-                                                             <p>🎉Lon: ${data[0].latlng[1]}</p>
-                                                             <p>🎉Lat: ${data[0].latlng[0]}</p>`
-
+                    showMapInfo(data[0]);
                 }
-            });
+            })
+            .catch(error => console.log(error));
     } else {
         console.log("give me something, mate...");
     }
@@ -83,5 +86,5 @@ function mapInfo() {
 $getInfoBtn.addEventListener("click", mapInfo);
 // this is where enter works like getInfoBtn:
 document.querySelector('#country')
-    .addEventListener("submit", () => { event.preventDefault(); mapInfo() });
+    .addEventListener("submit", (event) => { event.preventDefault(); mapInfo() });
 
