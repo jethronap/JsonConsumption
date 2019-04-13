@@ -1,0 +1,1 @@
+Simple usage of openMap, fetch() with handleErrors & Bootstrap.
