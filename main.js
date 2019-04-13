@@ -1,4 +1,4 @@
-// this is a function that shows a map:
+// this function shows a map:
 function openMap(options) {
 
     if (options.zoom === undefined) {
@@ -22,12 +22,13 @@ function openMap(options) {
     });
 };
 
+// this function hadles the 404 server response:
 function handleErrors(response) {
     if (!response.ok) {
         document.querySelector("#map").innerHTML = `<p>Silly You, this is</p> 
                                                     <p>NOT a valid name</p> 
                                                     <p>for a country</p>`;
-        document.querySelector("#info").innerHTML ="💔this is a no-go mate!"
+        document.querySelector("#info").innerHTML = "💔this is a no-go mate!"
         throw Error(response.statusText);
     }
     return response;
@@ -36,6 +37,7 @@ function handleErrors(response) {
 let $getInfoBtn = document.querySelector("#getinfo");
 let $countryInput = document.querySelector("#countryname");
 
+// this is where things happen:
 function mapInfo() {
 
     let value = $countryInput.value;
@@ -47,15 +49,13 @@ function mapInfo() {
         // empty the map before filling it with another one:
         document.querySelector("#map").innerHTML = "";
 
-        // do an ajax request:
+        // do a fetch request:
         fetch(endpoint + value)
-            .then(handleErrors) 
+            .then(handleErrors)
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-
-
                 if (value === 'india') {
                     openMap({ lon: data[1].latlng[1], lat: data[1].latlng[0] });
                     document.querySelector("#info").innerHTML = `
@@ -81,7 +81,7 @@ function mapInfo() {
 }
 
 $getInfoBtn.addEventListener("click", mapInfo);
-// enter in form works like getInfoBtn:
+// this is where enter works like getInfoBtn:
 document.querySelector('#country')
     .addEventListener("submit", () => { event.preventDefault(); mapInfo() });
 
