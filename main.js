@@ -32,7 +32,7 @@ function showMapInfo(data) {
                                                  <p>🎉Lat: ${data.latlng[0]}</p>`
 }
 
-// this function hadles the 404 server response:
+// this function handles the 404 server response:
 function handleErrors(response) {
     if (!response.ok) {
         document.querySelector("#map").innerHTML = `<p>Silly You, this is</p> 
